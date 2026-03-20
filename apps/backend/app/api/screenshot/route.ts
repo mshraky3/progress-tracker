@@ -98,8 +98,9 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(response);
     } catch (err) {
         console.error("Screenshot capture error:", err);
+        const message = err instanceof Error ? err.message : String(err);
         return NextResponse.json(
-            { error: "Failed to capture screenshot" },
+            { error: "Failed to capture screenshot", detail: message },
             { status: 500 }
         );
     }
