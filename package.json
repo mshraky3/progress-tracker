@@ -1,0 +1,14 @@
+{
+    "name": "wedgite",
+    "private": true,
+    "scripts": {
+        "dev:backend": "pnpm --filter @wedgite/backend dev",
+        "build:backend": "pnpm --filter @wedgite/backend build",
+        "dev:mobile": "pnpm --filter @wedgite/mobile start",
+        "lint": "pnpm -r lint",
+        "typecheck": "pnpm -r typecheck"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}
