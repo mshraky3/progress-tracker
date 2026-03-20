@@ -1,7 +1,6 @@
 import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
 
-// Ensure font rendering works on Vercel
 chromium.setHeadlessMode = true;
 chromium.setGraphicsMode = false;
 
@@ -10,12 +9,10 @@ chromium.setGraphicsMode = false;
  * Designed to run inside a Vercel serverless function.
  */
 export async function captureScreenshot(url: string): Promise<Buffer> {
-    const execPath = await chromium.executablePath();
-
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: { width: 1080, height: 1920 },
-        executablePath: execPath,
+        executablePath: await chromium.executablePath(),
         headless: chromium.headless,
     });
 
