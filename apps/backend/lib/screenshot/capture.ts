@@ -4,15 +4,22 @@ import puppeteer from "puppeteer-core";
 chromium.setHeadlessMode = true;
 chromium.setGraphicsMode = false;
 
+// Remote binary URL — downloaded once per instance and cached in /tmp.
+// This sidesteps the bundled-binary path issue in pnpm monorepos on Vercel.
+const CHROMIUM_BINARY_URL =
+    "https://github.com/Sparticuz/chromium/releases/download/v131.0.0/chromium-v131.0.0-pack.tar";
+
 /**
  * Capture a PNG screenshot of the given URL using headless Chromium.
  * Designed to run inside a Vercel serverless function.
  */
 export async function captureScreenshot(url: string): Promise<Buffer> {
+    const executablePath = await chromium.executablePath(CHROMIUM_BINARY_URL);
+
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: { width: 1080, height: 1920 },
-        executablePath: await chromium.executablePath(),
+        executablePath,
         headless: chromium.headless,
     });
 
