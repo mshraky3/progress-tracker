@@ -4,6 +4,10 @@ import puppeteer from "puppeteer-core";
 chromium.setHeadlessMode = true;
 chromium.setGraphicsMode = false;
 
+// Vercel's AL2023 runtime keeps libnss3 + libnspr4 in /usr/lib64.
+// Prepend it so the dynamic linker finds them when launching chromium.
+process.env.LD_LIBRARY_PATH = `/usr/lib64:${process.env.LD_LIBRARY_PATH ?? ""}`;
+
 // Remote binary URL — downloaded once per instance and cached in /tmp.
 // This sidesteps the bundled-binary path issue in pnpm monorepos on Vercel.
 const CHROMIUM_BINARY_URL =
